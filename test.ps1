@@ -26,6 +26,7 @@ if (Test-Path -Path $Folder) {
     Expand-Archive $SamplePath -DestinationPath $DestinationPath
     "Wait 5 seconds"
     Start-Sleep -Seconds 5
+    $FullFile
     Remove-Item $FullFile
   }  else {
     "Will not download ransomware"
