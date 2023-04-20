@@ -15,7 +15,9 @@ if (Test-Path -Path $Folder) {
     "******** Will download ransomware - DANGEROUS **************"
     $URL = 'https://github.com/PoesRaven/public/raw/master/darkpower.zip'
     $SamplePath = $HOME + '/Desktop/darkpower.zip'
-    $DestinationPath = $HOME + '/Desktop/darkpower.exe'
+    $DestinationPath = $HOME + '/Desktop/darkpower'
+    $File = 'darkpower.exe'
+    $FullFile = $DestinationPath + '\' + $File
     "Grabbing file"
     Invoke-WebRequest -URI $URL -OutFile $SamplePath
     "Wait 5 seconds"
@@ -24,7 +26,7 @@ if (Test-Path -Path $Folder) {
     Expand-Archive $SamplePath -DestinationPath $DestinationPath
     "Wait 5 seconds"
     Start-Sleep -Seconds 5
-    Remove-Item $DestinationPath
+    Remove-Item $FullFile
   }  else {
     "Will not download ransomware"
   }
