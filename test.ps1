@@ -1,6 +1,6 @@
 $Folder = $HOME + '/Desktop/ImportantDocuments/'
 $Exfil = $HOME + '/Desktop/exfil'
-$sample = $HOME + '/Desktop/darkpower'
+$sample = $HOME + '/Desktop/sample'
 
 "Test to see if folder [$Folder] exists - v3"
 if (Test-Path -Path $Folder) {
