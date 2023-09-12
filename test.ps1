@@ -18,7 +18,7 @@ if ($IOCTest.contains('True')) {
 
 if ($AMSITest.contains('True')) {
     "Will execute AMSI samples"
-    'AMSI Test Sample: 7e72c3ce-861b-4339-8740-0ac1484c1386'
+    Invoke-Mimikatz
 
   } else {
     "Will not execute AMSI samples"
