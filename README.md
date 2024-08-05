@@ -12,7 +12,7 @@ Forescout connect plugin for SentinelOne using EyeConnect (OIM) module.
     - Decommissioning
     - Network quarantine
     - Initiate system scan
-  - Added support for 64 additional SentinelOne data fields.
+  - Added support for 64 SentinelOne data fields.
 
 - **Bug Fixes:**
   - Fixed an issue causing intermittent connection failures.
